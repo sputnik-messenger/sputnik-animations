@@ -19,21 +19,21 @@ library sputnik_animation;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sputnik_animations/sputnik_shader.dart';
+import 'package:sputnik_animations/src/sputnik_shader.dart';
 import 'dart:math';
 
-import 'package:sputnik_animations/stars.dart';
+import 'package:sputnik_animations/src/stars.dart';
 
-class SputnikAnimation extends StatefulWidget {
+class OrbitingSputnikAnimation extends StatefulWidget {
   final bool runAnimation;
 
-  const SputnikAnimation({Key key, this.runAnimation}) : super(key: key);
+  const OrbitingSputnikAnimation({Key key, this.runAnimation}) : super(key: key);
 
   @override
-  _SputnikAnimationState createState() => _SputnikAnimationState();
+  _OrbitingSputnikAnimationState createState() => _OrbitingSputnikAnimationState();
 }
 
-class _SputnikAnimationState extends State<SputnikAnimation> with SingleTickerProviderStateMixin {
+class _OrbitingSputnikAnimationState extends State<OrbitingSputnikAnimation> with SingleTickerProviderStateMixin {
   AnimationController rotationController;
   Animation<double> animation;
 

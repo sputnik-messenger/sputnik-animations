@@ -19,7 +19,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:sputnik_animations/sputnik_shader.dart';
+import 'package:sputnik_animations/src/sputnik_shader.dart';
 
 
 class Stars extends StatelessWidget {
