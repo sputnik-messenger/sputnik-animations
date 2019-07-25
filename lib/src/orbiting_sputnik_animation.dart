@@ -31,7 +31,7 @@ class OrbitingSputnikAnimation extends StatefulWidget {
   final starFieldSeed;
   final String message;
 
-  const OrbitingSputnikAnimation({Key key, this.runAnimation, this.starFieldSeed, this.message}) : super(key: key);
+  const OrbitingSputnikAnimation({Key key, this.runAnimation, this.starFieldSeed = 8, this.message}) : super(key: key);
 
   @override
   _OrbitingSputnikAnimationState createState() => _OrbitingSputnikAnimationState();
