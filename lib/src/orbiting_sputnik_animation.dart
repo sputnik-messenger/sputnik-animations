@@ -17,6 +17,8 @@
 
 library sputnik_animation;
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sputnik_animations/src/sputnik_shader.dart';
@@ -26,8 +28,10 @@ import 'package:sputnik_animations/src/stars.dart';
 
 class OrbitingSputnikAnimation extends StatefulWidget {
   final bool runAnimation;
+  final starFieldSeed;
+  final String message;
 
-  const OrbitingSputnikAnimation({Key key, this.runAnimation}) : super(key: key);
+  const OrbitingSputnikAnimation({Key key, this.runAnimation, this.starFieldSeed, this.message}) : super(key: key);
 
   @override
   _OrbitingSputnikAnimationState createState() => _OrbitingSputnikAnimationState();
@@ -61,6 +65,47 @@ class _OrbitingSputnikAnimationState extends State<OrbitingSputnikAnimation> wit
   }
 
   Widget _buildLogo() {
+    Widget planet;
+    if (this.widget.message != null) {
+      planet = Center(
+        child: Container(
+          color: Color(0xFFE85B93).withOpacity(0.3),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(
+            widget.message,
+            style: TextStyle(color: Color(0xFFB3EA4F), fontStyle: FontStyle.italic, fontWeight: FontWeight.w400, fontSize: 24),
+          ),
+        ),
+      );
+    } else {
+      planet = Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Block(
+            height: 1,
+            width: 3,
+            alignment: Alignment(1, -4),
+          ),
+          Block(
+            height: 1,
+            alignment: Alignment(-3, -2),
+          ),
+          Block(
+            height: 1,
+            width: 2,
+            alignment: Alignment(0, 0),
+          ),
+          Block(
+            alignment: Alignment(3, 2),
+          ),
+          Block(
+            width: 3,
+            alignment: Alignment(-1, 4),
+          ),
+        ],
+      );
+    }
+
     return AspectRatio(
       aspectRatio: 1,
       child: Stack(
@@ -68,33 +113,9 @@ class _OrbitingSputnikAnimationState extends State<OrbitingSputnikAnimation> wit
         children: <Widget>[
           Ring(
             controller: rotationController,
+            starFieldSeed: widget.starFieldSeed,
           ),
-          Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Block(
-                height: 1,
-                width: 3,
-                alignment: Alignment(1, -4),
-              ),
-              Block(
-                height: 1,
-                alignment: Alignment(-3, -2),
-              ),
-              Block(
-                height: 1,
-                width: 2,
-                alignment: Alignment(0, 0),
-              ),
-              Block(
-                alignment: Alignment(3, 2),
-              ),
-              Block(
-                width: 3,
-                alignment: Alignment(-1, 4),
-              ),
-            ],
-          ),
+          planet
         ],
       ),
     );
@@ -107,8 +128,9 @@ class Ring extends AnimatedWidget {
   int phase = 0;
   final List<Offset> stars = <Offset>[];
   double ct = 0;
+  final int starFieldSeed;
 
-  Ring({Key key, AnimationController controller}) : super(key: key, listenable: controller) {
+  Ring({Key key, AnimationController controller, this.starFieldSeed}) : super(key: key, listenable: controller) {
     final c1 = CurveTween(curve: Curves.linear);
     final c2 = CurveTween(curve: Curves.linear);
     animation1 = controller.drive(c1);
@@ -130,7 +152,10 @@ class Ring extends AnimatedWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: RingPainter(phase == 0 ? animation1.value : animation2.value, phase),
-      child: Stars(ct),
+      child: Stars(
+        ct,
+        seed: starFieldSeed,
+      ),
     );
   }
 }

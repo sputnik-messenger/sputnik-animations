@@ -21,13 +21,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:sputnik_animations/src/sputnik_shader.dart';
 
-
 class Stars extends StatelessWidget {
   final stars = List<List<Offset>>();
   final double t;
+  final int seed;
 
-  Stars(this.t) {
-    final Random random = Random(8);
+  Stars(this.t, {this.seed: 8}) {
+    final Random random = Random(seed);
 
     stars.addAll([List<Offset>(), List<Offset>(), List<Offset>()]);
 
@@ -58,22 +58,23 @@ class StarsPainter extends CustomPainter {
     ..shader = SputnikShader.shader;
 
   final double t;
+
   StarsPainter(this.stars, this.t);
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.clipRect(Rect.fromLTWH(0, 0, size.width, size.height));
-    canvas.translate(size.width/2, size.height/2);
+    canvas.translate(size.width / 2, size.height / 2);
     canvas.save();
-    canvas.scale(1+(t/5000)%1000);
+    canvas.scale(1 + (t / 5000) % 1000);
     canvas.drawPoints(PointMode.points, stars[0].map((s) => s.scale(size.height, size.height)).toList(), p);
     canvas.restore();
     canvas.save();
-    canvas.rotate(t/2000);
-    canvas.scale(1+t/2000);
+    canvas.rotate(t / 2000);
+    canvas.scale(1 + t / 2000);
     canvas.drawPoints(PointMode.points, stars[1].map((s) => s.scale(size.height, size.height)).toList(), p);
     canvas.restore();
-    canvas.rotate(t/2000);
+    canvas.rotate(t / 2000);
     canvas.drawPoints(PointMode.points, stars[2].map((s) => s.scale(size.height, size.height)).toList(), p);
   }
 
